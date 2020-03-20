@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content= "width=device-width, initial-scale=1.0"> 
+  <title>COVID-19 Updates</title>
+  <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfNafBUY8TVgLcPMCPISzgEVnSSEIU1XQ&callback=initMap"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <center><h1>COVID-19 REALTIME UPDATE</h1><h5>By: Halfbyte</h5><h6>Data: https://github.com/NovelCOVID/API</h6></center>
+    <div class="jumbotron">
+      <center><h4>Global Map(Unfinished)</h4></center>
+      <div id="map" style="height: 300px">
+        
+      </div>
+      <br>
+      <select class="form-control" id="country">
+        <option selected disabled>SELECT A COUNTRY</option>
+      </select>
+      <br>
+      <br>
+      <div class="alert alert-primary" role="alert" id="total">
+      </div>
+      <div class="alert alert-warning" role="alert" id="total_cases">
+      </div>
+      <div class="alert alert-danger" role="alert" id="total_deaths">
+      </div>
+      <div class="alert alert-success" role="alert" id="total_recovered">
+      </div>
+    </div>
+    <div class="jumbotron" id="data">
+      <center><div id="today_case"></div></center>
+      <div class="chart-container">
+        <h3>COVID-19 Reports Chart</h3>
+          <canvas id="myChart"></canvas>
+        <div id="reports" style="display: inline;">
+          <div id="cases"></div>
+          <div id="deaths"></div>
+          <div id="recovered"></div>
+          <div id="active"></div>
+          <div id="critical"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    var map;
+    function initMap(){
+      try{
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 1,
+            center: {lat: -34.397, lng: 150.644},
+            mapTypeId: 'satellite',
+        });
+      }catch(e){
+        initMap();
+      }
+    }
+  </script>
+  <script type="text/javascript" src="js/index.js"></script>
+</body>
+</html>
