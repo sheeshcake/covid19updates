@@ -7,12 +7,12 @@
   <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
   <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfNafBUY8TVgLcPMCPISzgEVnSSEIU1XQ&callback=initMap"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfNafBUY8TVgLcPMCPISzgEVnSSEIU1XQ"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
   <div class="container">
-    <center><h1>COVID-19 REALTIME UPDATE</h1><h5>By: Halfbyte</h5><h6>Data: https://github.com/NovelCOVID/API</h6></center>
+    <center><h1>COVID-19 REALTIME UPDATE</h1><h6>Data: https://github.com/NovelCOVID/API</h6></center>
     <div class="jumbotron">
       <center><h4>Global Map(Unfinished)</h4></center>
       <div id="map" style="height: 300px">
@@ -48,19 +48,25 @@
       </div>
     </div>
   </div>
+  <footer>
+    <h5 style="float: left;">&copy Halfbyte&reg (2019-2020)</h5>
+    <h6 style="float: right;">By: Dee</h6>
+  </footer>
   <script type="text/javascript">
     var map;
-    function initMap(){
-      try{
-        map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 1,
-            center: {lat: -34.397, lng: 150.644},
-            mapTypeId: 'satellite',
-        });
-      }catch(e){
-        initMap();
-      }
-    }
+    $(document).ready(function(){
+        try{
+          map = new google.maps.Map(document.getElementById('map'), {
+              zoom: 1,
+              center: {lat: -34.397, lng: 150.644},
+              mapTypeId: 'satellite',
+          });
+        }catch(e){
+          console.log("trying");
+          initMap();
+        }
+    });
+
   </script>
   <script type="text/javascript" src="js/index.js"></script>
 </body>

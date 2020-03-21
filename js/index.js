@@ -23,7 +23,7 @@ $(document).ready(function(){
 
 
 function update_data(){
-  console.log("updating data..");
+  // console.log("updating data..");
   $.ajax({
     url: "https://corona.lmao.ninja/all",
     method: "GET",
@@ -97,20 +97,25 @@ function update_map(){
     url: "https://corona.lmao.ninja/jhucsse",
     method: "GET",
     success: function(data){
-      console.log(data);
+      // console.log(data);
       for(var i = 0; i < data.length; i++){
-        console.log(data[i]['coordinates']);
-        var cityCircle = new google.maps.Circle({
-          strokeColor: '#FF0000',
-          strokeOpacity: 0.8,
-          strokeWeight: 2,
-          fillColor: '#FF0000',
-          fillOpacity: 0.35,
-          map: map,
-          center: {lat: parseFloat(data[i]['coordinates']['lattitude']), lng: parseFloat(data[i]['coordinates']['longitude'])},
-          radius: parseFloat(data[i]['stats']['confirmed']) * 5
-        });
-        circle.push(cityCircle);
+        try{
+          // console.log(data[i]['coordinates']);
+          // console.log(parseFloat(data[i]['coordinates']['latitude']) + "----" + parseFloat(data[i]['coordinates']['longitude']));
+          var cityCircle = new google.maps.Circle({
+            strokeColor: '#FF0000',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '#FF0000',
+            fillOpacity: 0.35,
+            map: map,
+            center: {lat: parseFloat(data[i]['coordinates']['latitude']), lng: parseFloat(data[i]['coordinates']['longitude'])},
+            radius: parseFloat(data[i]['stats']['confirmed']) * 5
+          });
+          circle.push(cityCircle);
+        }catch(e){
+          continue;
+        }
       }
     }
   })
