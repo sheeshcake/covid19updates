@@ -37,7 +37,17 @@
       <center><div id="today_case"></div></center>
       <div class="chart-container">
         <h3>COVID-19 Reports Chart</h3>
-          <canvas id="myChart"></canvas>
+          <canvas id="mybarChart"></canvas>
+          <br>
+          <div class="col-auto">
+            <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" id="compare">
+            <label class="form-check-label" for="compare">
+          Compare
+            </label>
+            </div>
+          </div>
+          <canvas id="mylineChart"></canvas>
         <div id="reports" style="display: inline;">
           <div id="cases"></div>
           <div id="deaths"></div>
@@ -64,7 +74,7 @@
         }catch(e){
           console.log("trying");
           initMap();
-        }
+        } 
     });
 
   </script>

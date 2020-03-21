@@ -2,8 +2,12 @@ var all_data;
 var countries_data;
 var countries_loaded = false;
 var id = -1;
+var country_name = "";
 var chart;
+var line_chart;
 var circle = [];
+// var date = [{1: {22,10},2: {1,29}, 3:{1,31}}];
+
 
 $("#data").hide();
 $(document).ready(function(){
@@ -36,9 +40,10 @@ function update_data(){
   });
 }
 
-$("#country").change(function(){
+function get_barChart(){
   if(id != -1){
     chart.destroy();
+    line_chart.destroy();
   }
   id = $("#country").val();
   $.ajax({
@@ -46,7 +51,7 @@ $("#country").change(function(){
     method: "GET",
     success: function(data){
       $("#data").show();
-      var ctx = document.getElementById('myChart').getContext('2d');
+      var ctx = document.getElementById('mybarChart').getContext('2d');
       chart = new Chart(ctx, 
       {
         type: 'bar',
@@ -83,9 +88,75 @@ $("#country").change(function(){
       $("#active").html("<p>Active: " + data[id]['active'] + "</p>");
       $("#critical").html("<p>Critical: " + data[id]['critical'] + "</p>");
       $("#today_case").html("<h3>Todays Total Case: " + data[id]['todayCases'] + "</h3>");
+      country_name = data[id]['country'];
     }
   });
-  
+}
+
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
+
+var date_labels = [];
+var date_cases = [];
+var country_dataset = new Array();
+function get_lineChart(){
+  $.ajax({
+    url: "https://corona.lmao.ninja/historical",
+    method: "GET",
+    success: function(data){
+      //proces the data
+      // console.log(data);
+      // console.log(data['']['timeline']['cases']);
+      for(var i = 0; i < data.length; i++){
+        if(data[i]['country'] == country_name){
+          // console.log(data[i]['timeline']['cases']);
+          date_cases = Object.values(data[i]['timeline']['cases']);
+          // console.log(date_cases);
+          date_labels = Object.keys(data[i]['timeline']['cases']);
+          // console.log(date_labels);
+          // for(var j = 0; j < date_labels.length; j++){
+            country_dataset.push({
+              "data": date_cases,
+              "label": country_name,
+              "borderColor": getRandomColor(),
+              "fill": false
+            });
+          // }
+          break;
+        }
+      }
+      var ctx = document.getElementById('mylineChart').getContext('2d');
+        line_chart = new Chart(ctx, 
+        {
+          type: 'line',
+          data:{
+            labels: date_labels,
+            datasets: country_dataset
+          },
+          options: {
+            title: {
+              display: true,
+              text: 'COVID CASES'
+            }
+          }
+        }
+      );
+    }
+  });
+}
+
+
+$("#country").change(function(){
+  get_lineChart();
+  get_barChart();
+
 });
 
 
