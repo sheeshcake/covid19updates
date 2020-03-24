@@ -6,7 +6,6 @@ var country_name = "";
 var chart;
 var line_chart;
 var circle = [];
-// var date = [{1: {22,10},2: {1,29}, 3:{1,31}}];
 
 
 $("#data").hide();
@@ -27,7 +26,6 @@ $(document).ready(function(){
 
 
 function update_data(){
-  // console.log("updating data..");
   $.ajax({
     url: "https://corona.lmao.ninja/all",
     method: "GET",
@@ -87,7 +85,11 @@ function get_barChart(){
       $("#recovered").html("<p>Recovered: " + data[id]['recovered'] + "</p>");
       $("#active").html("<p>Active: " + data[id]['active'] + "</p>");
       $("#critical").html("<p>Critical: " + data[id]['critical'] + "</p>");
-      $("#today_case").html("<h3>Todays Total Case: " + data[id]['todayCases'] + "</h3>");
+      if(data[id]['todayCases'] <= 0){
+        $("#today_case").html("<h3 style='color:green'>Todays Total Case: " + data[id]['todayCases'] + "</h3>");
+      }else{
+        $("#today_case").html("<h3 style='color:red'>Todays Total Case: " + data[id]['todayCases'] + "</h3>");
+      }
       country_name = data[id]['country'];
     }
   });
@@ -111,7 +113,6 @@ function get_lineChart(){
     url: "https://corona.lmao.ninja/historical",
     method: "GET",
     success: function(data){
-      //proces the data
       // console.log(data);
       // console.log(data['']['timeline']['cases']);
       for(var i = 0; i < data.length; i++){
@@ -121,14 +122,12 @@ function get_lineChart(){
           // console.log(date_cases);
           date_labels = Object.keys(data[i]['timeline']['cases']);
           // console.log(date_labels);
-          // for(var j = 0; j < date_labels.length; j++){
-            country_dataset.push({
-              "data": date_cases,
-              "label": country_name,
-              "borderColor": getRandomColor(),
-              "fill": false
-            });
-          // }
+          country_dataset.push({
+            "data": date_cases,
+            "label": country_name,
+            "borderColor": getRandomColor(),
+            "fill": false
+          });
           break;
         }
       }
@@ -154,7 +153,7 @@ function get_lineChart(){
 
 
 $("#country").change(function(){
-  get_lineChart();
+  // get_lineChart();
   get_barChart();
 
 });
@@ -162,6 +161,7 @@ $("#country").change(function(){
 
 function update_charts(){
 }
+
 
 function update_map(){
   $.ajax({
@@ -191,7 +191,7 @@ function update_map(){
     }
   })
 }
-update_map();
+// update_map();
 update_data();
 
 setInterval(function(){
@@ -203,7 +203,35 @@ setInterval(function(){
   for (var i = 0; i < circle.length; i++) {
     circle[i].setMap(null);
   }
-  update_map();
+  // update_map();
   update_charts();
-}, 10000)
+}, 10000);
+
+
+function test(){
+  $.ajax({
+    url: "https://corona.lmao.ninja/jhucsse",
+    method: "GET",
+    success: function(data){
+      console.log(data);
+    }
+  });
+  $.ajax({
+    url: "https://corona.lmao.ninja/countries",
+    method: "GET",
+    success: function(data){
+      console.log(data);
+    }
+  });
+  $.ajax({
+    url: "https://corona.lmao.ninja/historical",
+    method: "GET",
+    success: function(data){
+      console.log(data);
+    }
+  });
+
+}
+
+// test();
 
