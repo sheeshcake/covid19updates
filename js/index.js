@@ -6,6 +6,7 @@ var country_name = "";
 var chart;
 var line_chart;
 var circle = [];
+var error = false;
 
 
 $("#data").hide();
@@ -30,10 +31,14 @@ function update_data(){
     url: "https://corona.lmao.ninja/all",
     method: "GET",
     success: function(data){
-      $("#total_cases").html("<center><h5>Total Cases: " + data["cases"] + "</h5></center>");
-      $("#total_deaths").html("<center><h5>Total Deaths: " + data["deaths"] + "</h5></center>");
-      $("#total_recovered").html("<center><h5>Total Recovered: " + data["recovered"] + "</h5></center>");
-      $("#total").html("<center><h5>Date Updated: " + Date(data["updated"]) + "</h5></center>");
+      try{
+        $("#total_cases").html("<center><h5>Total Cases: " + data["cases"] + "</h5></center>");
+        $("#total_deaths").html("<center><h5>Total Deaths: " + data["deaths"] + "</h5></center>");
+        $("#total_recovered").html("<center><h5>Total Recovered: " + data["recovered"] + "</h5></center>");
+        $("#total").html("<center><h5>Date Updated: " + Date(data["updated"]) + "</h5></center>");
+      }catch(e){
+        error = true;
+      }
     }
   });
 }
@@ -165,7 +170,7 @@ function update_charts(){
 
 function update_map(){
   $.ajax({
-    url: "https://corona.lmao.ninja/jhucsse",
+    url: "https://corona.lmao.ninja/v2/jhucsse",
     method: "GET",
     success: function(data){
       // console.log(data);
@@ -191,7 +196,7 @@ function update_map(){
     }
   })
 }
-// update_map();
+update_map();
 update_data();
 
 setInterval(function(){
@@ -203,7 +208,7 @@ setInterval(function(){
   for (var i = 0; i < circle.length; i++) {
     circle[i].setMap(null);
   }
-  // update_map();
+  update_map();
   update_charts();
 }, 10000);
 
